@@ -1,0 +1,99 @@
+<div class="card mb-5 mb-xl-10">
+    <div class="card-body pt-9 ">
+        <div class="d-flex flex-wrap flex-sm-nowrap mb-3 content-card">
+
+            <div class="image-slider position-relative">
+                <ngx-slick-carousel 
+                    class="carousel" 
+                    [config]="slidesConfig"
+                    #slickModal
+                    (init)="slickInit($event)"
+                    (breakpoint)="breakpoint($event)"
+                    (afterChange)="afterChange($event)"
+                    (beforeChange)="beforeChange($event)"
+                >
+                    <div *ngFor="let slide of slides" class="slide">
+                      <img [src]="driveImage(slide.link_media)">
+                    </div>
+                </ngx-slick-carousel>
+                <!-- <img src="./assets/media/car-template.jpg" alt="Metronic" /> -->
+            </div>
+
+            <div class="flex-grow-1">
+                <div class="
+                  description-block
+                ">
+                    <div class="d-flex flex-column description-content">
+                        <div class="d-flex align-items-center mb-2 ">
+                            <span class="
+                                text-gray-800 text-hover-primary
+                                description-title
+                                fw-bolder
+                                me-1
+                                cursor-pointer
+                            ">
+                               {{data.description}}
+                            </span>
+                        </div>
+
+                        <div class="d-flex flex-wrap fw-bold fs-6 pe-2">
+                            <a class="
+                                d-flex
+                                align-items-center
+                                text-gray-400 text-hover-primary
+                                me-5
+                                mb-2
+                                cursor-pointer
+                            ">
+                                <i class="fas fa-car me-2"></i>
+                                {{data.model?.brand?.brandName}} - {{data.model?.model}}
+                            </a>
+                            <a class="
+                                d-flex
+                                align-items-center
+                                text-gray-400 text-hover-primary
+                                me-5
+                                mb-2
+                                cursor-pointer
+                            ">
+                                <i class="fas fa-wrench me-2"></i>
+                                {{data.transmission}}
+                            </a>
+                            <a class="
+                                d-flex
+                                align-items-center
+                                text-gray-400 text-hover-primary
+                                mb-2
+                                cursor-pointer
+                            ">
+                                <i class="fas fa-gas-pump me-2"></i>
+                                {{data.fuel}}
+                            </a>
+                        </div>
+                        <div class="ticket-content">
+                            <span  *ngIf="reservation || data?.stateCar?.isReserved" class="badge badge-light-primary fs-8 fw-bolder">Réservé</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex my-4 cta-block">
+
+                        <a *ngIf="!data?.stateCar?.isReserved" class="btn btn-sm btn-success me-2 cursor-pointer" id="kt_user_follow_button">
+                            <span *ngIf="loadingReservation" class="spinner-border spinner-border-sm align-middle me-2"></span>
+                            <span class="indicator-label" (click)="toReserveCar()">Réserver</span>
+                        </a>
+
+                        <a class="btn btn-sm btn-light me-2 cursor-pointer" id="kt_user_follow_button">
+                            <span class="indicator-label" (click)="toUpdateCar()">Modifier</span>
+                        </a>
+
+                        <a class="btn btn-sm btn-danger me-2 cursor-pointer" id="kt_user_follow_button">
+                            <span class="indicator-label" (click)="deleteCta()">Supprimer</span>
+                        </a>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="px-7 py-5">
+  <div class="fs-5 text-dark fw-bolder">Filter Options</div>
+</div>
+
+<div class="separator border-gray-200"></div>
+
+<div class="px-7 py-5">
+  <div class="mb-10">
+    <label class="form-label fw-bold">Status:</label>
+
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+      >
+        <option></option>
+        <option selected value="1">Commandé</option>
+        <option value="2">Importé</option>
+        <option value="3">Déchargé</option>
+        <option value="4">Livrée</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mb-10">
+    <label class="form-label fw-bold">Date:</label>
+
+    <input type="datetime-local" class="form-control form-control-solid" formControlName="description" placeholder="" value="" />
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button
+      type="reset"
+      class="btn btn-sm btn-light btn-active-light-primary me-2"
+      data-kt-menu-dismiss="true"
+    >
+      Reset
+    </button>
+
+    <button
+      type="submit"
+      class="btn btn-sm btn-primary"
+      data-kt-menu-dismiss="true"
+    >
+      Apply
+    </button>
+  </div>
+</div>

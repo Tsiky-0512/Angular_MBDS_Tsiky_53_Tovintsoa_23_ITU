@@ -1,0 +1,49 @@
+<div class="d-flex flex-stack flex-wrap">
+    <div class="fs-6 fw-bold text-gray-700">Liste {{startPage}} à {{endPage}} de {{totalPage}} de la liste</div>
+  
+    <div class="end-part">
+      <select class="select-pagination-semwee" [(ngModel)]="numberPerPage" (change)="changePerPage()" >
+        <option *ngFor="let item of perPageList" [value]="item">{{item}}</option>
+      </select>
+      <ul class="pagination">
+        <li class="page-item previous">
+          <button class="page-link cursor-pointer "
+            (click)="toStartPage()"
+            [ngClass]="{'disabled': startPage === 1}"
+            [disabled]="startPage === 1">
+            <i class="fas fa-angle-double-left"></i>
+          </button>
+        </li>
+    
+        <li class="page-item previous">
+          <button class="page-link cursor-pointer"
+            (click)="previousPage()"
+            [ngClass]="{'disabled': startPage === 1}"
+            [disabled]="startPage === 1"
+          >
+            <i class="fas fa-angle-left"></i>
+          </button>
+        </li>
+  
+        <li class="page-item next">
+          <button class="page-link cursor-pointer"
+            (click)="nextPage()"
+            [ngClass]="{'disabled': totalPage === numPage}"
+            [disabled]="totalPage == numPage"
+          >
+            <i class="fas fa-angle-right"></i>
+          </button>
+        </li>
+    
+        <li class="page-item next">
+          <button class="page-link cursor-pointer"
+            (click)="toEndPage()"
+            [ngClass]="{'disabled': totalPage === numPage}"
+            [disabled]="totalPage == numPage"
+          >
+            <i class="fas fa-angle-double-right"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>

@@ -1,0 +1,76 @@
+.content-card{
+    width: 100%;
+    justify-content: center;
+}
+
+.description-content{
+    width: 100%;
+    padding: 15px 0;
+    div{
+        justify-content: center;
+    }
+}
+
+.image-slider{
+    width: 100%;
+    img {
+        border-radius: 0.27rem;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.cta-block{
+    width: 100%;
+    justify-content: center;
+}
+
+.card-body {
+    padding-bottom: 0;
+}   
+
+.description-title{
+    font-size: 2rem;
+}
+
+.ticket-content {
+    display: flex;
+}
+
+
+@media screen and (min-width:576px) {
+    .description-title{
+        font-size: 3.5rem;
+    }
+    .image-slider{
+        width: 500px;
+        img {
+            height: 100%;
+        }
+    }
+    .card-body {
+        padding-bottom: 2.25rem;
+    }    
+    .flex-grow-1{
+        padding: 0 25px;
+    }
+    .description-content{
+        div{
+            justify-content: flex-start;
+        }
+    }
+
+    .cta-block{
+        justify-content: flex-start;
+    }
+    
+    .description-block{
+        display: flex;
+        flex-direction: column;
+    }
+
+}
+
+.slick-next .slick-arrow{
+    display: none!important;
+}

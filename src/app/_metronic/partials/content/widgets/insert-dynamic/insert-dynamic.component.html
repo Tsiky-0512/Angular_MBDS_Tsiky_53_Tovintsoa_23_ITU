@@ -1,0 +1,65 @@
+<div class="card card-custom gutter-b example example-compact">
+    <form class="form" [formGroup]="inputForm" (ngSubmit)="ctaAction()">
+        <!-- FIELD -->
+        <div class="card-body">
+            <div class="mb-15">
+                <div *ngFor="let item of configuration.field" class="form-group row mt-2">
+                    <label class="col-lg-3 col-form-label">{{displayLabel(item)}} :</label>
+                    <div class="col-lg-6">
+                        <input 
+                            *ngIf="getTypeInput(item) != 'select'"
+                            [type]="getTypeInput(item)" 
+                            (change)="changeFunction(item)"
+                            class="form-control form-control-solid"
+                            [formControlName]="item"
+                            [ngClass]="{
+                                'is-invalid':  (inputForm.controls[item].value.length != 0 && inputForm.controls[item].invalid) || (submitted  && inputForm.controls[item].invalid),
+                                'is-valid': inputForm.controls[item].value.length != 0 && inputForm.controls[item].valid 
+                            }"
+                            [readonly]="configuration.readonlyField[item] || false"
+                        />
+                        
+                        <select  
+                            (change)="changeFunction(item)"
+                            [attr.disabled]="configuration.readonlyField[item] || null"
+                            *ngIf="getTypeInput(item) == 'select'" 
+                            class="form-control form-control-solid" 
+                            [formControlName]="item"
+                            [ngClass]="{
+                                'is-invalid':  (inputForm.controls[item].value.length != 0 && inputForm.controls[item].invalid) || (submitted  && inputForm.controls[item].invalid),
+                                'is-valid': inputForm.controls[item].value.length != 0 && inputForm.controls[item].valid 
+                            }"    
+                        >
+                                <option *ngFor="let selectItem of selectData[item] || []" [value]="selectItem.value">{{selectItem.field}}</option>
+                        </select>
+
+                        <div class="error-description">
+                            <span *ngIf="submitted && inputForm.controls[item].errors?.required">
+                                {{getRequiredError(item)}}
+                            </span>
+                            <span *ngIf="inputForm.controls[item].errors?.maxlength || inputForm.controls[item].errors?.minlength">
+                                {{getLengthError(item)}}
+                            </span>
+                            <span *ngIf="inputForm.controls[item].errors?.max || inputForm.controls[item].errors?.min">
+                                {{getMinMaxError(item)}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA -->
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-primary mr-2">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        {{ configuration.ctaLabel || 'Sauvegarder' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,206 @@
+<!-- begin::Header -->
+<div class="card-header border-0 pt-5">
+    <div class="card-title d-flex align-items-center">
+        <span class="card-label fw-bolder fs-3 mb-1">{{configuration[activeSection].title}}</span>
+            <!-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 new products</span> -->
+        <button 
+            *ngIf="(clearFilterIcon[activeSection] | async)"
+            (click)="clearFilterFunction[activeSection]()"
+            type="button"
+            class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+        >
+            <span
+            [inlineSVG]="'./assets/media/icons/duotune/general/gen040.svg'"
+            class="svg-icon svg-icon-2"
+            ></span>
+        </button>
+    </div>
+  
+    <div class="card-toolbar">
+        <div *ngFor="let section of sectionList">
+            <button  *ngIf="configuration[section].identifiants === activeTab && configuration[section].advancedSearchButton"
+            type="button"
+            class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+            (click)="emitAdvancedSearch(section)"
+        >
+            <span
+            [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'"
+            class="svg-icon svg-icon-2"
+            ></span>
+        </button>
+        </div>
+        
+        <ul class="nav">
+            <li class="nav-item" *ngFor="let section of sectionList">
+                <a class="
+                nav-link
+                btn btn-sm btn-color-muted btn-active btn-active-light-primary
+                fw-bolder
+                px-4
+                me-1
+              " data-bs-toggle="tab" (click)="setTab(configuration[section].identifiants,section)"
+                    [ngClass]="activeClass(configuration[section].identifiants)">
+                    {{section}}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- end::Header -->
+
+<!-- begin::Body -->
+<div class="card-body py-3">
+    <div class="tab-content">
+        <!-- begin::Tap pane -->
+        <div *ngFor="let section of sectionList" class="tab-pane fade" [id]="configuration[section].identifiants"
+            [ngClass]="activeClass(configuration[section].identifiants)">
+
+            <!-- begin::Table container -->
+            <div class="table-responsive">
+                <!-- begin::Table -->
+                <table *ngIf="(dataObservable[section] | async)" class="table align-middle gs-0 gy-4">
+
+
+                    <!-- begin::Table head -->
+                    <thead>
+                        <tr class="fw-bolder text-muted bg-light">
+                            <th *ngIf="configuration[section].withSelection" class="w-25px ps-4 rounded-start">
+                                <div class="
+                                form-check form-check-sm form-check-custom form-check-solid
+                              ">
+                                    <input class="form-check-input" type="checkbox" value="1"
+                                        [(ngModel)]="selectedStatus[section]"
+                                        (click)="handleSelectedAllData(section)" />
+                                </div>
+                            </th>
+                            <th *ngFor="let head of configuration[section].header;let i=index;" class="min-w-200px "
+                                [ngClass]="{ 'ps-4 rounded-start': i == 0}">
+                                {{configuration[section].label[head] || head}}
+                                <span *ngIf="configuration[section]?.sort" class="arrow-container"
+                                    [ngClass]="sortClass[section][head]" (click)="sortColumn(section,head)">
+                                    <img src="assets/media/icons/arrow-up.png" class="arrow-image arrow-up" alt="">
+                                    <img src="assets/media/icons/arrow-down.png" class="arrow-image arrow-down" alt="">
+                                </span>
+                            </th>
+                            <th class="min-w-200px d-flex justify-content-end" *ngIf="configuration[section].ctaAction">Action</th>
+                            <th class="min-w-10px text-end rounded-end"></th>
+                            <th *ngIf="configuration[section].specificButton" class="specific__btn"></th>
+                        </tr>
+                        <tr *ngIf="configuration[section].filter" class="fw-bolder text-muted bg-light">
+                            <th *ngIf="configuration[section].withSelection" class="ps-4 rounded-start"></th>
+                            <th *ngFor="let head of configuration[section].header;let i=index;" class="min-w-200px "
+                                [ngClass]="{ 'ps-4 rounded-start': i == 0}">
+                                <div class="input-search">
+                                    <div class="border-form">
+                                        <input [(ngModel)]="filter[section][head]"
+                                            (keyup)="handleFilter($event,section,head)"
+                                            class="form-control form-control-solid" type="text">
+                                        <span class="clear-search" (click)="removeInput(section,head)"
+                                            style="cursor: pointer;">
+                                            <div class="d-flex align-items-center" data-kt-search-element="toggle"
+                                                id="kt_header_search_toggle">
+                                                <div>
+                                                    <span
+                                                        [inlineSVG]="'./assets/media/icons/duotune/general/gen027.svg'"
+                                                        class="svg-icon"></span>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                    <span (click)="handleSearch(section)" style="cursor: pointer;">
+                                        <div class="d-flex align-items-center" data-kt-search-element="toggle"
+                                            id="kt_header_search_toggle">
+                                            <div>
+                                                <span [inlineSVG]="'./assets/media/icons/duotune/general/gen021.svg'"
+                                                    class="svg-icon"></span>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </th>
+                            <th class="min-w-200px " *ngIf="configuration[section].ctaAction"></th>
+                            <th class="min-w-10px text-end rounded-end"></th>
+                            <th class="specific__btn" *ngIf="configuration[section].specificButton"></th>
+                        </tr>
+                    </thead>
+                    <!-- end::Table head -->
+
+
+                    <!-- begin::Table body -->
+                    <tbody>
+                        <tr *ngFor="let item of (dataObservable[section] | async); let i = index">
+                            <td *ngIf="configuration[section].withSelection">
+                                <div class="form-check form-check-sm form-check-custom form-check-solid ps-4">
+                                    {{handleObjectSelected(section,item)}}
+                                    <input class="form-check-input widget-9-check" type="checkbox"
+                                        [(ngModel)]="item.selected"
+                                        (click)="addItemSelected(item,section,!item.selected)" />
+
+                                </div>
+                            </td>
+                            <td *ngFor="let field of configuration[section].header">
+                                <span class="text-dark fw-bolder d-block mb-1 fs-6 no-wrap"
+                                    *ngIf="!ifLinkExist(section,field) else linkBlock"
+                                    [ngClass]="{ 'number-value': isNumber(field,section)}"
+                                    >
+                                    {{convertFielToDisplay(item,field,section)}}
+                                </span>
+                                <ng-template #linkBlock>
+                                    <span class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6 no-wrap"
+                                        [ngClass]="{ 'number-value': isNumber(field,section)}"
+                                        (click)="generateLink(section,field,item)">
+                                        {{convertFielToDisplay(item,field,section)}}
+                                    </span>
+                                </ng-template>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-end flex-shrink-0">
+                                    <button *ngIf="configuration[section]?.ctaDetails" class="
+                                        btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                                        me-1
+                                    ">
+                                        <span [inlineSVG]="
+                                      './assets/media/icons/duotune/general/gen019.svg'
+                                    " class="svg-icon svg-icon-3"></span>
+                                    </button>
+                                    <button *ngIf="configuration[section]?.ctaEdit" (click)="configuration[section].ctaFunction?.ctaEdit(item,i)" class="
+                                    btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                                    me-1
+                                  ">
+                                        <span [inlineSVG]="'./assets/media/icons/duotune/art/art005.svg'"
+                                            class="svg-icon svg-icon-3"></span>
+                                    </button>
+                                    <button *ngIf="configuration[section]?.ctaDelete" (click)="configuration[section].ctaFunction?.ctaDelete(item,i)" class="
+                                        btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                                    ">
+                                        <span [inlineSVG]="
+                                      './assets/media/icons/duotune/general/gen027.svg'
+                                    " class="svg-icon svg-icon-3"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td *ngIf="configuration[section].specificButton">
+                                <button type="button" (click)="configuration[section].specificButton?.ctaAction(item,i)" class="specific__btn-button btn " [class]="'btn-'+configuration[section].specificButton?.color">{{configuration[section].specificButton?.label || 'Button'}}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- end::Table body -->
+                </table>
+                <!-- end::Table -->
+
+                <div *ngIf="(loadingObservable[section] | async)" class="spinner-border justify-content-center"
+                    role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <!-- end::Table container -->
+            <app-pagination-widget1 *ngIf="configuration[section]?.pagination" [countData]="countData[section]"
+                (paginationValue)="handlePagination(section,$event)">
+            </app-pagination-widget1>
+
+        </div>
+        <!-- end::Tap pane -->
+
+    </div>
+</div>
+<!-- begin::Body -->
