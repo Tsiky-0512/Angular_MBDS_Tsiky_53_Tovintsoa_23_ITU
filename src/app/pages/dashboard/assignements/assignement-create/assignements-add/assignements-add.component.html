@@ -1,0 +1,192 @@
+<!--begin::Form-->
+<form [formGroup]="inputForm" class="form w-lg-500px mx-auto" (ngSubmit)="submit()" novalidate="novalidate">
+    <!--begin::Group-->
+    <div class="mb-5">
+        <!--begin::Step 1-->
+        <div class="flex-column current">
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+
+
+                <!--begin::Input-->
+                <div class="d-flex content-step__description">
+                    <!--begin::Label-->
+                    <label class="form-label">Description Assignement</label>
+                    <!--end::Label-->
+                    <input type="text" class="form-control form-control-solid" name="input1" formControlName="nom"
+                        placeholder="Ajoutez la description ici" value="" [ngClass]="{
+                'is-invalid':  (inputForm.controls['nom'].value.length != 0 && inputForm.controls['nom'].invalid) || (submitted  && inputForm.controls['nom'].invalid),
+                'is-valid': inputForm.controls['nom'].value.length != 0 && inputForm.controls['nom'].valid 
+              }" />
+                    <div class="error-description">
+                        <span *ngIf="submitted && inputForm.controls['nom'].errors?.required">
+                            La Description est obligatoire
+                        </span>
+                        <span
+                            *ngIf="inputForm.controls['nom'].errors?.maxlength || inputForm.controls['nom'].errors?.minlength">
+                            Le Description doit être plus de 3 caractères
+                        </span>
+                    </div>
+                </div>
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+
+
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+                <!--begin::Label-->
+                <label class="form-label">Matière</label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <div class="d-flex align-items-center content-step__matiere">
+                    <select name="" id="" class="form-control form-control-solid " formControlName="matiereId"
+                        [ngClass]="{
+                'is-invalid':  (inputForm.controls['matiereId'].value.length != 0 && inputForm.controls['matiereId'].invalid) || (submitted  && inputForm.controls['matiereId'].invalid),
+                'is-valid': inputForm.controls['matiereId'].value.length != 0 && inputForm.controls['matiereId'].valid 
+              }">
+                        <option *ngFor="let item of matiereData" [value]="item._id">{{item.nom}}</option>
+                    </select>
+                    <a class="no-wrap pointer mx-1 cursor-pointer" (click)="openInsertMatiere()">Ajouter un Matière</a>
+                </div>
+                <!--end::Input-->
+                <div class="error-description">
+                    <span *ngIf="submitted && inputForm.controls['brand'].errors?.required">
+                        La Matière est obligatoire
+                    </span>
+                </div>
+            </div>
+            <!--end::Input group-->
+        </div>
+        <!--begin::Step 1-->
+
+
+    </div>
+    <!--end::Group-->
+
+    <!--begin::Actions-->
+    <div class="d-flex flex-stack cta-block">
+        <button type="submit" class="btn btn-primary">
+            Continue
+        </button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->
+
+
+<ng-template #insertMatiere let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Ajouter Matière</h4>
+        <button type="button" class="btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa-sharp fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="modal-body search-dynamic">
+        <form [formGroup]="inputFormMatiere">
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+                <!--begin::Input-->
+                <div class="d-flex content-step__description">
+                    <!--begin::Label-->
+                    <label class="form-label">Matière</label>
+                    <!--end::Label-->
+                    <input type="text" class="form-control form-control-solid" name="input1" formControlName="nom"
+                        placeholder="Ajoutez la description ici" value="" [ngClass]="{
+                        'is-invalid':  (inputFormMatiere.controls['nom'].value.length != 0 && inputFormMatiere.controls['nom'].invalid) || (submitted  && inputFormMatiere.controls['nom'].invalid),
+                        'is-valid': inputFormMatiere.controls['nom'].value.length != 0 && inputFormMatiere.controls['nom'].valid 
+                        }" />
+                    <div class="error-description">
+                        <span *ngIf="submittedMatiere && inputFormMatiere.controls['nom'].errors?.required">
+                            Le nom de la Matière est obligatoire
+                        </span>
+                        <span
+                            *ngIf="inputFormMatiere.controls['nom'].errors?.maxlength || inputFormMatiere.controls['nom'].errors?.minlength">
+                            Le nom de la Matière doit être plus de 3 caractères
+                        </span>
+                    </div>
+                </div>
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+                <!--begin::Input-->
+                <div class="d-flex content-step__description">
+                    <!--begin::Label-->
+                    <label class="form-label">Professeur</label>
+                    <!--end::Label-->
+                    <input type="text" class="form-control form-control-solid" name="input1" formControlName="nom_prof"
+                        placeholder="Ajoutez la description ici" value="" [ngClass]="{
+                        'is-invalid':  (inputFormMatiere.controls['nom_prof'].value.length != 0 && inputFormMatiere.controls['nom_prof'].invalid) || (submitted  && inputFormMatiere.controls['nom_prof'].invalid),
+                        'is-valid': inputFormMatiere.controls['nom_prof'].value.length != 0 && inputFormMatiere.controls['nom_prof'].valid 
+                        }" />
+                    <div class="error-description">
+                        <span *ngIf="submittedMatiere && inputFormMatiere.controls['nom_prof'].errors?.required">
+                            Le nom de Professeur est obligatoire
+                        </span>
+                        <span
+                            *ngIf="inputFormMatiere.controls['nom_prof'].errors?.maxlength || inputFormMatiere.controls['nom_prof'].errors?.minlength">
+                            Le nom de Professeur de la Matière doit être plus de 3 caractères
+                        </span>
+                    </div>
+                </div>
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+
+
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+                <!--begin::Input-->
+                <div class="d-flex content-step__description">
+                    <!--begin::Label-->
+                    <label class="form-label">Photo de la Matière </label>
+                    <div class="card-body image-content">
+                        <div *ngIf="!previewImageMatiereUrl" class="image-content__nocontent">
+                          Veuillez séléctionner des images
+                        </div>
+                        <div *ngIf="previewImageMatiereUrl" class="image-content__content">
+                          <img [src]="previewImageMatiereUrl"  class="image">
+                        </div>
+                        <input type="file" accept=".jpg,.jpeg,.png,.gif" style="display: none;" #imageInput (change)="onFileSelectedImageMatiere($event)">
+                        <button (click)="imageInput.click()" type="button" class="btn btn-secondary image-content__button">
+                          Ajouter une image 
+                        </button>
+                      </div>
+                </div>
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+                <!--begin::Input-->
+                <div class="d-flex content-step__description">
+                    <!--begin::Label-->
+                    <label class="form-label">Photo de la Matière </label>
+                    <!--end::Label-->
+                    <input type="text" class="form-control form-control-solid" name="input1" formControlName="image"
+                        placeholder="Ajoutez l'image ici" value=""/>
+                    <div class="error-description">
+                        <span *ngIf="submittedMatiere && inputFormMatiere.controls['nom_prof'].errors?.required">
+                            L'image est obligatoire
+                        </span>
+                    </div>
+                </div>
+                <!--end::Input-->
+
+
+            </div>
+            <!--end::Input group-->
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary mr-2">
+            <span *ngIf="false" class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            Enregistrer
+        </button>
+    </div>
+</ng-template>

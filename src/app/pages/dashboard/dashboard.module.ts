@@ -5,10 +5,13 @@ import { DashboardComponent } from './dashboard.component';
 import { CardsModule, ModalsModule, WidgetsModule } from '../../_metronic/partials';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg-2';
-import { AssignementComponent } from './assignement/assignement.component';
+import { AssignementListComponent } from './assignements/assignement-list/assignement-list.component';
+import { AssignementCreateComponent } from './assignements/assignement-create/assignement-create.component';
+import { AssignementsAddComponent } from './assignements/assignement-create/assignements-add/assignements-add.component';
+import { StudentAddComponent } from './assignements/assignement-create/student-add/student-add.component';
 
 @NgModule({
-  declarations: [DashboardComponent, AssignementComponent,],
+  declarations: [DashboardComponent, AssignementListComponent, AssignementCreateComponent, AssignementsAddComponent, StudentAddComponent,],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -18,7 +21,11 @@ import { AssignementComponent } from './assignement/assignement.component';
         children : [
           {
             path:'assignement-list',
-            component:AssignementComponent
+            component:AssignementListComponent
+          },
+          {
+            path:'assignement-create',
+            component:AssignementCreateComponent
           },
           {
             path:'',

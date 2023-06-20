@@ -1,0 +1,40 @@
+<!-- begin::Row -->
+<div class="row g-5 g-xl-8">
+  <!-- begin::Col -->
+  <div class="col-xl-4" *ngFor="let item of assignementData">
+
+    <div class="card card-xl-stretch mb-xl-8">
+      <div class="card-header">
+
+        <div  class="d-flex align-items-center pe-2 ">
+          <span class="text-muted text-center fw-bolder fs-5 flex-grow-1">{{ item?.auteur?.nom || "Pas d' Auteur" }}</span>
+        </div>
+
+        <div class="symbol symbol-50px">
+          <span class="symbol-label bg-light">
+            <img src="./assets/media/svg/brand-logos/plurk.svg" class="h-50 align-self-center" alt="" />
+          </span>
+        </div>
+
+      </div>
+
+      <div class="card-body d-flex flex-column pb-10 pb-lg-15">
+        
+        <a href="#" class="text-dark fw-bolder text-hover-primary fs-1">
+          Grails
+        </a>
+        
+        <span>
+          Date : 2023-02-02
+        </span>
+      
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+<div class="content">
+
+</div>

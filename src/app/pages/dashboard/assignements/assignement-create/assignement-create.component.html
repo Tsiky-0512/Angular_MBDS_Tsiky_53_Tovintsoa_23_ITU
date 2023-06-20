@@ -1,0 +1,102 @@
+<div class="card mb-5 mb-xl-10">
+    <div id="kt_account_profile_details" class="collapse show">
+      <div class="card-body border-top p-9">
+        <!--begin::Stepper-->
+        <div class="stepper stepper-pills stepper-column d-flex flex-column flex-lg-row" id="kt_stepper_example_vertical">
+          <!--begin::Aside-->
+          <div class="d-flex flex-row-auto w-100 w-lg-300px">
+            <!--begin::Nav-->
+            <div class="stepper-nav flex-cente">
+  
+  
+              <!--begin::Step 1-->
+              <div class="stepper-item me-5 " data-kt-stepper-element="nav"
+                [ngClass]="{
+                  'current':step == 0,
+                  'completed':step > 0
+                }"
+  
+              >
+                <!--begin::Wrapper-->
+                <div class="stepper-wrapper d-flex align-items-center">
+                  <!--begin::Icon-->
+                  <div class="stepper-icon w-40px h-40px">
+                    <i class="stepper-check fas fa-check"></i>
+                    <span class="stepper-number">1</span>
+                  </div>
+                  <!--end::Icon-->
+  
+                  <!--begin::Label-->
+                  <div class="stepper-label">
+                    <h3 class="stepper-title">
+                      Etape 1
+                    </h3>
+  
+                    <div class="stepper-desc">
+                      Information Assignement
+                    </div>
+                  </div>
+                  <!--end::Label-->
+                </div>
+                <!--end::Wrapper-->
+  
+                <!--begin::Line-->
+                <div class="stepper-line h-40px"></div>
+                <!--end::Line-->
+              </div>
+              <!--end::Step 1-->
+  
+              
+              <!--begin::Step 2-->
+              <div class="stepper-item me-5 " data-kt-stepper-element="nav"
+                [ngClass]="{
+                  'current':step == 1,
+                  'completed':step > 1
+                }"
+              >
+                <!--begin::Wrapper-->
+                <div class="stepper-wrapper d-flex align-items-center">
+                  <!--begin::Icon-->
+                  <div class="stepper-icon w-40px h-40px">
+                    <i class="stepper-check fas fa-check"></i>
+                    <span class="stepper-number">2</span>
+                  </div>
+                  <!--begin::Icon-->
+  
+                  <!--begin::Label-->
+                  <div class="stepper-label">
+                    <h3 class="stepper-title">
+                      Etape 2
+                    </h3>
+  
+                    <div class="stepper-desc">
+                      Information Etudiants
+                    </div>
+                  </div>
+                  <!--end::Label-->
+                </div>
+                <!--end::Wrapper-->
+  
+                <!--begin::Line-->
+                <div class="stepper-line h-40px"></div>
+                <!--end::Line-->
+              </div>
+              <!--end::Step 2-->
+
+            </div>
+            <!--end::Nav-->
+          </div>
+  
+          <!--begin::Content-->
+          <div class="flex-row-fluid">
+                <app-assignements-add *ngIf="step == 0"></app-assignements-add>
+                <app-student-add *ngIf="step == 1"></app-student-add>
+          </div>
+          <!--end::Content-->
+  
+  
+        </div>
+        <!--end::Stepper-->
+      </div>
+    </div>
+  </div>
