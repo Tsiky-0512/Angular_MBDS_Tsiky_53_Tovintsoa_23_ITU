@@ -1,107 +1,100 @@
 <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
     <div class="card-header cursor-pointer">
         <div class="card-title m-0">
-            <h2 class="fw-bolder m-0">Details Achat</h2>
+            <h2 class="fw-bolder m-0">Details Assignement</h2>
         </div>  
     </div>
 
     <div class="card-body p-9">
         <div class="row mb-7">
-            <label class="col-lg-4 fw-bold text-muted">ID Achat</label>
+            <label class="col-lg-4 fw-bold text-muted">ID Assignement</label>
 
             <div class="col-lg-8">
-                <span class="fw-bolder fs-6 text-dark">{{purchaseData?.purchaseId}}</span>
-            </div>
-        </div>
-
-        <div class="row mb-7">
-            <label class="col-lg-4 fw-bold text-muted">Date de l'Achat</label>
-
-            <div class="col-lg-8 fv-row">
-                <span class="fw-bold fs-6">{{purchaseData?.date}}</span>
+                <span class="fw-bolder fs-6 text-dark">{{assignementData?.assignment?._id}}</span>
             </div>
         </div>
 
         <div class="row mb-7">
             <label class="col-lg-4 fw-bold text-muted">Description</label>
 
-            <div class="col-lg-8 fv-row">
-                <span class="fw-bold fs-6">{{purchaseData?.details}}</span>
+            <div class="col-lg-8">
+                <span class="fw-bolder fs-6 text-dark">{{assignementData?.assignment?.nom}}</span>
             </div>
         </div>
 
-        <div class="row mb-7">
-            <label class="col-lg-4 fw-bold text-muted">Chassis de Voiture</label>
+        <div class="row mb-7" *ngIf="assignementData?.assignment?.dateDeRendu">
+            <label class="col-lg-4 fw-bold text-muted">Date de Rendu</label>
 
-            <div class="col-lg-8 fv-row">
-                <span class="text-dark fw-bolder text-hover-primary cursor-pointer" (click)="redirectToDetailsCar(purchaseData?.car?.carId)">{{purchaseData?.car?.chassis}}</span>
+            <div class="col-lg-8">
+                <span class="fw-bolder fs-6 text-dark">{{assignementData?.assignment?.dateDeRendu}}</span>
             </div>
         </div>
 
-        <div class="row mb-7">
-            <label class="col-lg-4 fw-bold text-muted">Prix D'aquisition</label>
-
-            <div class="col-lg-8 fv-row">
-                <span class="fw-bold fs-6">{{convertNumber(purchaseData?.price)}}  {{purchaseData?.currency?.currency}}</span>
-            </div>
-        </div>
-
-        <div class="row mb-7">
-            <label class="col-lg-4 fw-bold text-muted">Prix D'aquisition en Ariary</label>
-
-            <div class="col-lg-8 fv-row">
-                <span class="fw-bold fs-6">{{convertNumber(purchaseData?.price * purchaseData?.exhangeRate)}}  Ariary</span>
-            </div>
-        </div>
-
-        <div class="row mb-7">
-            <label class="col-lg-4 fw-bold text-muted">Reste à payer en Ariary</label>
-
-            <div class="col-lg-8 fv-row">
-                <span class="fw-bold fs-6">{{purchaseData?.outstanding == 0 ? 0 : convertNumber(purchaseData?.outstanding)}}  Ariary</span>
-            </div>
-        </div>
-
-
-        <div class="load" *ngIf="loaderPurchase">
+      
+        <div class="load" *ngIf="assignementData?.matiere">
             <hr>
 
             <h3 style="margin: 30px 0;">
-                Chargement de Voiture
+                Matière
             </h3>
     
             <div class="row mb-7">
-                <label class="col-lg-4 fw-bold text-muted">Date de Chargement</label>
+                <label class="col-lg-4 fw-bold text-muted">Nom de la Matière</label>
     
                 <div class="col-lg-8 fv-row">
-                    <span class="fw-bold fs-6">{{loaderPurchase?.loadDate}}</span>
+                    <span class="fw-bold fs-6">{{assignementData?.matiere?.nom || 'NA'}}</span>
+                </div>
+            </div>
+
+            <div class="row mb-7">
+                <label class="col-lg-4 fw-bold text-muted">Nom de la Professeur</label>
+    
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bold fs-6">{{assignementData?.matiere?.prof?.nom || 'NA'}}</span>
                 </div>
             </div>
     
-    
-             <div class="row mb-7">
-                <label class="col-lg-4 fw-bold text-muted">Type de Chargement</label>
+            <div *ngIf="assignementData?.matiere?.prof?.image" class="row mb-7">
+                <label class="col-lg-4 fw-bold text-muted">Photo de Professeur</label>
     
                 <div class="col-lg-8 fv-row">
-                    <span class="fw-bold fs-6">{{purchaseData?.loader}}</span>
+                    <span class="fw-bold fs-6">{{assignementData?.matiere?.prof?.image || 'NA'}}</span>
+                </div>
+            </div>
+        
+        </div>
+
+        <div class="load" *ngIf="assignementData?.matiere">
+            <hr>
+
+            <h3 style="margin: 30px 0;">
+                Auteur
+            </h3>
+
+            <div class="row mb-7">
+                <label class="col-lg-4 fw-bold text-muted">Identifiants de l'auteur</label>
+    
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bold fs-6">{{assignementData?.auteur?._id || 'NA'}}</span>
                 </div>
             </div>
     
             <div class="row mb-7">
-                <label class="col-lg-4 fw-bold text-muted">Freight</label>
+                <label class="col-lg-4 fw-bold text-muted">Nom de l'Auteur</label>
     
                 <div class="col-lg-8 fv-row">
-                    <span class="fw-bold fs-6">{{convertNumber(loaderPurchase?.freight)}} {{loaderPurchase?.currency?.currency}}</span>
+                    <span class="fw-bold fs-6">{{assignementData?.auteur?.nom || 'NA'}}</span>
                 </div>
             </div>
-    
+
             <div class="row mb-7">
-                <label class="col-lg-4 fw-bold text-muted">Freight en MGA</label>
+                <label class="col-lg-4 fw-bold text-muted">Image de l'auteur</label>
     
                 <div class="col-lg-8 fv-row">
-                    <span class="fw-bold fs-6">{{convertNumber(loaderPurchase?.freight * loaderPurchase?.exchangeRate)}} Ariary</span>
+                    <span class="fw-bold fs-6">{{assignementData?.auteur?.image || 'NA'}}</span>
                 </div>
             </div>
+        
         </div>
 
 

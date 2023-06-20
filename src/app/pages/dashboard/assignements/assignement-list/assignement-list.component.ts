@@ -89,8 +89,8 @@ export class AssignementListComponent implements OnInit {
     this.role = session?.data?.role;
   }
 
-  toDetailsPage() {
-    this.router.navigateByUrl('/dashboard/assignement-details');
+  toDetailsPage(idAssignement:string) {
+    this.router.navigateByUrl(`/dashboard/assignement-details/${idAssignement}`);
   }
 
   openModalRendu(idAssignement:string){

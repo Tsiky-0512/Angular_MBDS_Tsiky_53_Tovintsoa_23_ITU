@@ -90,4 +90,26 @@ export class AssignementService {
     )
   }
 
+  getAssignementsById(assignementId:string){
+    this.loadingData.next(true);
+    console.log(`${API_ASSIGNEMENT_URL}/${assignementId}`);
+    
+    return this.http.get(`${API_ASSIGNEMENT_URL}/${assignementId}`).pipe(
+      map((data:any)=>{
+        if (data.status != "200") {
+          this.common.openSnackBarMessage(`Erreur au serveur ${data?.data}`,"error",5000)
+          return of(undefined);
+        }
+        return data;
+      }),
+      catchError((err) => {
+        this.common.openSnackBarMessage(`Erreur : ${err}`,'error',5000);
+        return of(undefined);
+      }),
+      finalize(()=>{
+        this.loadingData.next(false);
+      })
+    );
+  }
+
 }
