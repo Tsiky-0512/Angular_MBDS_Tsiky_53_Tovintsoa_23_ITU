@@ -76,7 +76,7 @@ export class AssignementListComponent implements OnInit {
   incrementAssignement(){
     this.loadingDataAssignement = true;
     this.assignementService.getAssignements(this.page,6).pipe(first()).subscribe((data)=> {
-      this.assignementData = [...this.assignementData,data?.data] ;
+      this.assignementData = [...this.assignementData,...data?.data] ;
       this.page = data?.page;
       this.totalPages = data?.totalPages;
       this.loadingDataAssignement = false;
