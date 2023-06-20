@@ -31,9 +31,14 @@
       </div>
 
       <div class="card-footer d-flex justify-content-end" *ngIf="role == 'admin'">
-        <button type="button" (click)="openModalRendu(item._id)" class="btn btn-secondary">
+        <button type="button" *ngIf="!item.rendu; else rendu" (click)="openModalRendu(item._id)" class="btn btn-secondary">
           A rendre
         </button>
+        <ng-template #rendu>
+          <button type="button" class="btn btn-secondary disabled">
+            Déjà Rendu
+          </button>
+        </ng-template>
         <button type="button" (click)="deleteAssignement(item._id)" class="btn btn-danger mx-1">
           <span *ngIf="loadingDeleteAssignement" class="spinner-border spinner-border-sm align-middle ms-2"></span>
           Supprimer
@@ -41,7 +46,13 @@
       </div>
     </div>
   </div>
-  
+</div>
+
+<div (click)="loadMore()" class="load-more fw-bolder text-hover-primary cursor-pointer d-flex justify-content-center" *ngIf="page != totalPages" >
+  <span *ngIf="loadingDataAssignement" class="spinner-border spinner-border-sm align-middle ms-2"></span>
+  <span>
+    Load More
+  </span>
 </div>
 
 

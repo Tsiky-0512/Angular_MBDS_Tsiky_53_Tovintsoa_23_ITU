@@ -25,6 +25,11 @@ export class AssignementListComponent implements OnInit {
   assignementUpdateRef:NgbModalRef;
   assignementSelected!:string;
 
+  page:number = 1 ;
+  totalPages:number = 1;
+
+  loadingDataAssignement:boolean = false;
+
   constructor(
     private assignementService:AssignementService,
     private authService:AuthService,
@@ -61,10 +66,23 @@ export class AssignementListComponent implements OnInit {
   }
 
   getAssignement(){
-    this.assignementService.getAssignements().pipe(first()).subscribe((data)=> {
+    this.assignementService.getAssignements(this.page,6).pipe(first()).subscribe((data)=> {
       this.assignementData = data?.data;
+      this.page = data?.page;
+      this.totalPages = data?.totalPages;
     })
   } 
+
+  incrementAssignement(){
+    this.loadingDataAssignement = true;
+    this.assignementService.getAssignements(this.page,6).pipe(first()).subscribe((data)=> {
+      this.assignementData = [...this.assignementData,data?.data] ;
+      this.page = data?.page;
+      this.totalPages = data?.totalPages;
+      this.loadingDataAssignement = true;
+
+    })
+  }
 
   getRoleUser(){
     const session = this.authService.getAuthFromLocalStorage();
@@ -95,7 +113,9 @@ export class AssignementListComponent implements OnInit {
     this.loadingRendu = true;
     const body = {
       _id : this.assignementSelected,
-      ...this.inputFormRendu.value
+      ...this.inputFormRendu.value,
+      dateDeRendu:new Date(),
+      rendu:true
     }
 
     this.assignementService.updateAssignement(body).pipe(first()).subscribe(() => {
@@ -103,7 +123,13 @@ export class AssignementListComponent implements OnInit {
       this.loadingRendu = false;
       this.inputFormRendu.reset();
       this.assignementUpdateRef.close();
+      this.getAssignement();
     });
+  }
+
+  loadMore(){
+    this.page += 1;
+    this.incrementAssignement();
   }
 
  

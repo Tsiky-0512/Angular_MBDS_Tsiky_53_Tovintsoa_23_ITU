@@ -22,9 +22,9 @@ export class AssignementService {
 
   }
 
-  getAssignements(){
+  getAssignements(page:number,limit:number){
     this.loadingData.next(true);
-    return this.http.get(`${API_ASSIGNEMENT_URL}`).pipe(
+    return this.http.get(`${API_ASSIGNEMENT_URL}?page=${page}&limit=${limit}`).pipe(
       map((data:any)=>{
         if (data.status != "200") {
           this.common.openSnackBarMessage(`Erreur au serveur ${data?.data}`,"error",5000)
