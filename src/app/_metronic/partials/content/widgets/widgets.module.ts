@@ -89,7 +89,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalsModule } from '../../layout/modals/modals.module';
 import { TablesDynamic1Component } from './tables/table-widget-aaron/table-dynamic1.component';
 import { RouterModule } from '@angular/router';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { InsertDynamicComponent } from './insert-dynamic/insert-dynamic.component';
 @NgModule({
   declarations: [
@@ -194,8 +193,7 @@ import { InsertDynamicComponent } from './insert-dynamic/insert-dynamic.componen
     FormsModule,
     ReactiveFormsModule,
     ModalsModule,
-    RouterModule,
-    SlickCarouselModule
+    RouterModule
 
   ],
   exports: [

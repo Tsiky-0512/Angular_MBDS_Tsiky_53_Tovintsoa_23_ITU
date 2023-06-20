@@ -18,7 +18,6 @@ import { FakeAPIService } from './_fake/fake-api.service';
 // Angular Material
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { tokenInterceptor } from './interceptor/token.interceptor';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 
 function appInitializer(authService: AuthService) {
@@ -43,9 +42,6 @@ function appInitializer(authService: AuthService) {
 
     // Angular Material Module
     MatSnackBarModule,
-
-    // Slider Modeule
-    SlickCarouselModule,
 
     // #fake-start#
     environment.isMockEnabled
