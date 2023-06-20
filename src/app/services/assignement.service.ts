@@ -42,4 +42,52 @@ export class AssignementService {
     );
   }
 
+  saveAssignement(body:any) {
+    return this.http.post(`${API_ASSIGNEMENT_URL}`,body).pipe(
+      map((data:any)=>{
+        if (data.status != "200") {
+          this.common.openSnackBarMessage(data.error,"error",5000);
+          return of(undefined);
+        }
+        this.common.openSnackBarMessage("Insertion Assignement avec succès.","error",5000);
+      }),
+      catchError((err) => {
+        this.common.openSnackBarMessage(`Erreur : ${err}`,'error',5000);
+        return of(undefined);
+      })
+    )
+  }
+
+  deleteAssignement(idAssignement:string) {
+    return this.http.delete(`${API_ASSIGNEMENT_URL}/${idAssignement}`).pipe(
+      map((data:any)=>{
+        if (data.status != "200") {
+          this.common.openSnackBarMessage(data.error,"error",5000);
+          return of(undefined);
+        }
+        this.common.openSnackBarMessage("Assignement supprimé avec succès.","error",5000);
+      }),
+      catchError((err) => {
+        this.common.openSnackBarMessage(`Erreur : ${err}`,'error',5000);
+        return of(undefined);
+      })
+    )
+  }
+
+  updateAssignement(body:any){
+    return this.http.put(`${API_ASSIGNEMENT_URL}`,body).pipe(
+      map((data:any)=>{
+        if (data.status != "200") {
+          this.common.openSnackBarMessage(data.error,"error",5000);
+          return of(undefined);
+        }
+        this.common.openSnackBarMessage("Mise à jour Assignement avec succès.","error",5000);
+      }),
+      catchError((err) => {
+        this.common.openSnackBarMessage(`Erreur : ${err}`,'error',5000);
+        return of(undefined);
+      })
+    )
+  }
+
 }

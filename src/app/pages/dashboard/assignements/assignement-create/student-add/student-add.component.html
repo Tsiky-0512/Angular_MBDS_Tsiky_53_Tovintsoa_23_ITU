@@ -1,1 +1,48 @@
-<p>student-add works!</p>
+<!--begin::Form-->
+<form [formGroup]="inputForm" class="form w-lg-500px mx-auto" (ngSubmit)="submit()" novalidate="novalidate">
+    <!--begin::Group-->
+    <div class="mb-5">
+        <!--begin::Step 1-->
+        <div class="flex-column current">
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+                <!--begin::Label-->
+                <label class="form-label">Sélectionner un étudiants</label>
+                <!--end::Label-->
+
+                <!--begin::Input-->
+                <div class="d-flex align-items-center content-step__matiere">
+                    <select name="" id="" class="form-control form-control-solid " formControlName="auteurId"
+                        [ngClass]="{
+                            'is-invalid':  (inputForm.controls['auteurId'].value.length != 0 && inputForm.controls['auteurId'].invalid) || (submitted  && inputForm.controls['auteurId'].invalid),
+                            'is-valid': inputForm.controls['auteurId'].value.length != 0 && inputForm.controls['auteurId'].valid 
+                        }">
+                        <option *ngFor="let item of auteurData" [value]="item._id">{{item.nom}}</option>
+                    </select>
+                    <a class="no-wrap pointer mx-1 cursor-pointer" (click)="openInsertEtudiant()">Ajouter un Etudiant</a>
+                </div>
+                <!--end::Input-->
+                <div class="error-description">
+                    <span *ngIf="submitted && inputForm.controls['auteurId'].errors?.required">
+                        L'Etudiant est obligatoire
+                    </span>
+                </div>
+            </div>
+            <!--end::Input group-->
+        </div>
+        <!--begin::Step 1-->
+
+
+    </div>
+    <!--end::Group-->
+
+    <!--begin::Actions-->
+    <div class="d-flex flex-stack cta-block">
+        <button type="submit" class="btn btn-primary">
+            <span *ngIf="loadingObservable | async" class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            Sauvegarder
+        </button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->

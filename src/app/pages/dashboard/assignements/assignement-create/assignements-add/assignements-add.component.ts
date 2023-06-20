@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgModuleRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, NgModuleRef, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
@@ -21,6 +21,9 @@ export class AssignementsAddComponent implements OnInit {
 
   @ViewChild('insertMatiere') insertMatiere:ElementRef;
   insertMatiereRef:NgbModalRef;
+
+  @Output() getResult: EventEmitter<Object> = new EventEmitter();
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -86,7 +89,9 @@ export class AssignementsAddComponent implements OnInit {
   }
 
   submit(){
-
+    if(!this.inputForm.valid) return;
+    const value = this.inputForm.value;
+    this.getResult.emit(this.inputForm.value);
   }
 
   openInsertMatiere(){
@@ -103,10 +108,7 @@ export class AssignementsAddComponent implements OnInit {
     if (error) return;
 
     this.imageMatiereFile = file;
-
-    console.log("file.path )==================>",file);
     
-   
     // lecture du contenu du fichier
     const reader = new FileReader();
     reader.onload = () => {

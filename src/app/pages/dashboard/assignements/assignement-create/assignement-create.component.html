@@ -89,8 +89,8 @@
   
           <!--begin::Content-->
           <div class="flex-row-fluid">
-                <app-assignements-add *ngIf="step == 0"></app-assignements-add>
-                <app-student-add *ngIf="step == 1"></app-student-add>
+                <app-assignements-add (getResult)="getDataStepOne($event)" *ngIf="step == 0"></app-assignements-add>
+                <app-student-add (getResult)="getDataStepTwo($event)" [loadingSave]="loadingSave" *ngIf="step == 1"></app-student-add>
           </div>
           <!--end::Content-->
   

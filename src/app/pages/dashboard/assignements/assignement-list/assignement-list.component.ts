@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
+import { AuthService } from 'src/app/modules/auth';
 import { AssignementService } from 'src/app/services/assignement.service';
 
 @Component({
@@ -10,13 +14,50 @@ import { AssignementService } from 'src/app/services/assignement.service';
 export class AssignementListComponent implements OnInit {
 
   assignementData!:Array<any>
+  role:string;
+  loadingDeleteAssignement:boolean = false;
+
+  inputFormRendu!:FormGroup;
+  submittedRendu:boolean = false;
+  loadingRendu:boolean = false;
+
+  @ViewChild('updateAssignement') assignementUpdate:ElementRef;
+  assignementUpdateRef:NgbModalRef;
+  assignementSelected!:string;
 
   constructor(
-    private assignementService:AssignementService
+    private assignementService:AssignementService,
+    private authService:AuthService,
+    private router: Router,
+    private modalService: NgbModal,
+    private formBuilder:FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.getAssignement();
+    this.getRoleUser();
+    this.initFormRendu();
+
+  }
+
+  initFormRendu(){
+    this.inputFormRendu = this.formBuilder.group({
+      note: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.min(0),
+          Validators.max(20)
+        ]),
+      ],
+      remarques:[
+        '',
+       Validators.compose([
+        Validators.minLength(5),
+        Validators.maxLength(120)
+       ])
+      ]
+    });
   }
 
   getAssignement(){
@@ -24,5 +65,47 @@ export class AssignementListComponent implements OnInit {
       this.assignementData = data?.data;
     })
   } 
+
+  getRoleUser(){
+    const session = this.authService.getAuthFromLocalStorage();
+    this.role = session?.data?.role;
+  }
+
+  toUpdatePage() {
+    this.router.navigateByUrl('/dashboard/assignement-edit');
+  }
+
+  openModalRendu(idAssignement:string){
+    this.assignementSelected = idAssignement;
+    this.assignementUpdateRef = this.modalService.open(this.assignementUpdate, { ariaLabelledBy: 'modal-basic-title',fullscreen:'md',size:'md' });
+  }
+
+  deleteAssignement(assignementId:string){
+    this.loadingDeleteAssignement = true;
+    this.assignementService.deleteAssignement(assignementId).pipe(first()).subscribe(()=>{
+      this.getAssignement();
+      this.loadingDeleteAssignement = false;
+    })
+  }
+
+  rendreAssignement(){
+    this.submittedRendu = true;
+    
+    if(!this.inputFormRendu.valid) return;
+    this.loadingRendu = true;
+    const body = {
+      _id : this.assignementSelected,
+      ...this.inputFormRendu.value
+    }
+
+    this.assignementService.updateAssignement(body).pipe(first()).subscribe(() => {
+      this.submittedRendu = false;
+      this.loadingRendu = false;
+      this.inputFormRendu.reset();
+      this.assignementUpdateRef.close();
+    });
+  }
+
+ 
 
 }

@@ -7,7 +7,7 @@
       <div class="card-header">
 
         <div  class="d-flex align-items-center pe-2 ">
-          <span class="text-muted text-center fw-bolder fs-5 flex-grow-1">{{ item?.auteur?.nom || "Pas d' Auteur" }}</span>
+          <span class="text-muted text-center fw-bolder fs-5 flex-grow-1">{{item?.matiere?.nom || 'Pas de matières' }} </span>
         </div>
 
         <div class="symbol symbol-50px">
@@ -21,13 +21,23 @@
       <div class="card-body d-flex flex-column pb-10 pb-lg-15">
         
         <a href="#" class="text-dark fw-bolder text-hover-primary fs-1">
-          Grails
+         {{item.nom}} 
         </a>
         
         <span>
-          Date : 2023-02-02
+          {{ item?.auteur?.nom || "Pas d' Auteur" }}
         </span>
       
+      </div>
+
+      <div class="card-footer d-flex justify-content-end" *ngIf="role == 'admin'">
+        <button type="button" (click)="openModalRendu(item._id)" class="btn btn-secondary">
+          A rendre
+        </button>
+        <button type="button" (click)="deleteAssignement(item._id)" class="btn btn-danger mx-1">
+          <span *ngIf="loadingDeleteAssignement" class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          Supprimer
+        </button>
       </div>
     </div>
   </div>
@@ -35,6 +45,71 @@
 </div>
 
 
-<div class="content">
+<ng-template #updateAssignement let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title">Assignement à rendre</h4>
+      <button type="button" class="btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa-sharp fa-solid fa-xmark"></i>
+      </button>
+  </div>
+  <div class="modal-body search-dynamic">
+    <form [formGroup]="inputFormRendu">
+        <!--begin::Input group-->
+        <div class="fv-row mb-10">
+          
+          <!--begin::Input-->
+          <div class="d-flex content-step__description">
+              <!--begin::Label-->
+              <label class="form-label">Note sur 20</label>
+              <!--end::Label-->
+              <input type="number" min="0" max="20" class="form-control form-control-solid" name="input1" formControlName="note"
+                  placeholder="Ajoutez la note ici" value="" [ngClass]="{
+                  'is-invalid':  (inputFormRendu.controls['note'].value.length != 0 && inputFormRendu.controls['note'].invalid) || (submittedRendu  && inputFormRendu.controls['note'].invalid),
+                  'is-valid': inputFormRendu.controls['note'].value.length != 0 && inputFormRendu.controls['note'].valid 
+                  }" />
+              <div class="error-description">
+                  <span *ngIf="submittedRendu && inputFormRendu.controls['note'].errors?.required">
+                      La note est obligatoire
+                  </span>
+                  <span
+                      *ngIf="inputFormRendu.controls['note'].errors?.max || inputFormRendu.controls['note'].errors?.min">
+                      La note devrait entre 0 à 20
+                  </span>
+              </div>
+          </div>
+          <!--end::Input-->
 
-</div>
+          <!--begin::Input-->
+          <div class="d-flex content-step__description mt-3">
+            <!--begin::Label-->
+            <label class="form-label">Remarques (optionnel)</label>
+            <!--end::Label-->
+            <textarea type="text" rows="8" min="0" max="20" class="form-control form-control-solid" name="input1" formControlName="remarques"
+                placeholder="Ajoutez votre remarque ici" value="" [ngClass]="{
+                'is-invalid':  (inputFormRendu.controls['remarques'].value.length != 0 && inputFormRendu.controls['remarques'].invalid) || (submittedRendu  && inputFormRendu.controls['remarques'].invalid),
+                'is-valid': inputFormRendu.controls['remarques'].value.length != 0 && inputFormRendu.controls['remarques'].valid 
+                }" ></textarea>
+            <div class="error-description">
+                <span *ngIf="submittedRendu && inputFormRendu.controls['remarques'].errors?.required">
+                    La note est obligatoire
+                </span>
+                <span
+                    *ngIf="inputFormRendu.controls['remarques'].errors?.maxlength || inputFormRendu.controls['remarques'].errors?.minlength">
+                    Le remarque devrait entre 5 à 120 caractères
+                </span>
+            </div>
+        </div>
+        <!--end::Input-->
+
+
+        </div>
+        <!--end::Input group-->
+    </form>
+  </div>
+  <div class="modal-footer">
+      <button (click)="rendreAssignement()" type="submit" class="btn btn-primary mr-2">
+          <span *ngIf="loadingRendu" class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          Rendre
+      </button>
+  </div>
+</ng-template>
