@@ -9,9 +9,10 @@ import { AssignementListComponent } from './assignements/assignement-list/assign
 import { AssignementCreateComponent } from './assignements/assignement-create/assignement-create.component';
 import { AssignementsAddComponent } from './assignements/assignement-create/assignements-add/assignements-add.component';
 import { StudentAddComponent } from './assignements/assignement-create/student-add/student-add.component';
+import { AssignementDetailsComponent } from './assignements/assignement-details/assignement-details.component';
 
 @NgModule({
-  declarations: [DashboardComponent, AssignementListComponent, AssignementCreateComponent, AssignementsAddComponent, StudentAddComponent,],
+  declarations: [DashboardComponent, AssignementListComponent, AssignementCreateComponent, AssignementsAddComponent, StudentAddComponent, AssignementDetailsComponent,],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -26,6 +27,10 @@ import { StudentAddComponent } from './assignements/assignement-create/student-a
           {
             path:'assignement-create',
             component:AssignementCreateComponent
+          },
+          {
+            path:'assignement-details/:id',
+            component:AssignementDetailsComponent,
           },
           {
             path:'',

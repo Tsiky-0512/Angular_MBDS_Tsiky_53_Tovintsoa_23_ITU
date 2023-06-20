@@ -1,0 +1,115 @@
+<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+    <div class="card-header cursor-pointer">
+        <div class="card-title m-0">
+            <h2 class="fw-bolder m-0">Details Achat</h2>
+        </div>  
+    </div>
+
+    <div class="card-body p-9">
+        <div class="row mb-7">
+            <label class="col-lg-4 fw-bold text-muted">ID Achat</label>
+
+            <div class="col-lg-8">
+                <span class="fw-bolder fs-6 text-dark">{{purchaseData?.purchaseId}}</span>
+            </div>
+        </div>
+
+        <div class="row mb-7">
+            <label class="col-lg-4 fw-bold text-muted">Date de l'Achat</label>
+
+            <div class="col-lg-8 fv-row">
+                <span class="fw-bold fs-6">{{purchaseData?.date}}</span>
+            </div>
+        </div>
+
+        <div class="row mb-7">
+            <label class="col-lg-4 fw-bold text-muted">Description</label>
+
+            <div class="col-lg-8 fv-row">
+                <span class="fw-bold fs-6">{{purchaseData?.details}}</span>
+            </div>
+        </div>
+
+        <div class="row mb-7">
+            <label class="col-lg-4 fw-bold text-muted">Chassis de Voiture</label>
+
+            <div class="col-lg-8 fv-row">
+                <span class="text-dark fw-bolder text-hover-primary cursor-pointer" (click)="redirectToDetailsCar(purchaseData?.car?.carId)">{{purchaseData?.car?.chassis}}</span>
+            </div>
+        </div>
+
+        <div class="row mb-7">
+            <label class="col-lg-4 fw-bold text-muted">Prix D'aquisition</label>
+
+            <div class="col-lg-8 fv-row">
+                <span class="fw-bold fs-6">{{convertNumber(purchaseData?.price)}}  {{purchaseData?.currency?.currency}}</span>
+            </div>
+        </div>
+
+        <div class="row mb-7">
+            <label class="col-lg-4 fw-bold text-muted">Prix D'aquisition en Ariary</label>
+
+            <div class="col-lg-8 fv-row">
+                <span class="fw-bold fs-6">{{convertNumber(purchaseData?.price * purchaseData?.exhangeRate)}}  Ariary</span>
+            </div>
+        </div>
+
+        <div class="row mb-7">
+            <label class="col-lg-4 fw-bold text-muted">Reste à payer en Ariary</label>
+
+            <div class="col-lg-8 fv-row">
+                <span class="fw-bold fs-6">{{purchaseData?.outstanding == 0 ? 0 : convertNumber(purchaseData?.outstanding)}}  Ariary</span>
+            </div>
+        </div>
+
+
+        <div class="load" *ngIf="loaderPurchase">
+            <hr>
+
+            <h3 style="margin: 30px 0;">
+                Chargement de Voiture
+            </h3>
+    
+            <div class="row mb-7">
+                <label class="col-lg-4 fw-bold text-muted">Date de Chargement</label>
+    
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bold fs-6">{{loaderPurchase?.loadDate}}</span>
+                </div>
+            </div>
+    
+    
+             <div class="row mb-7">
+                <label class="col-lg-4 fw-bold text-muted">Type de Chargement</label>
+    
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bold fs-6">{{purchaseData?.loader}}</span>
+                </div>
+            </div>
+    
+            <div class="row mb-7">
+                <label class="col-lg-4 fw-bold text-muted">Freight</label>
+    
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bold fs-6">{{convertNumber(loaderPurchase?.freight)}} {{loaderPurchase?.currency?.currency}}</span>
+                </div>
+            </div>
+    
+            <div class="row mb-7">
+                <label class="col-lg-4 fw-bold text-muted">Freight en MGA</label>
+    
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bold fs-6">{{convertNumber(loaderPurchase?.freight * loaderPurchase?.exchangeRate)}} Ariary</span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="cta-content mb-5">
+            <button (click)="back()" type="button" class="btn btn-secondary mx-1"  >
+                Revenir
+            </button>
+        </div>
+    </div>
+</div>

@@ -35,8 +35,8 @@
           A rendre
         </button>
         <ng-template #rendu>
-          <button type="button" class="btn btn-secondary disabled">
-            Déjà Rendu
+          <button type="button" (click)="toDetailsPage()" class="btn btn-secondary">
+            Voir Details
           </button>
         </ng-template>
         <button type="button" (click)="deleteAssignement(item._id)" class="btn btn-danger mx-1">
