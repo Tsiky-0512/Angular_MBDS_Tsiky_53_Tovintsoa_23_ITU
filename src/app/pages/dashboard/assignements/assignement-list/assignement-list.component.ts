@@ -79,7 +79,7 @@ export class AssignementListComponent implements OnInit {
       this.assignementData = [...this.assignementData,data?.data] ;
       this.page = data?.page;
       this.totalPages = data?.totalPages;
-      this.loadingDataAssignement = true;
+      this.loadingDataAssignement = false;
 
     })
   }
