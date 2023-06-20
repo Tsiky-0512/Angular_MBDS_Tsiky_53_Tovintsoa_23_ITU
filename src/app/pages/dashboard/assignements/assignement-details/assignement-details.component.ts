@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { AssignementService } from 'src/app/services/assignement.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-assignement-details',
@@ -11,6 +12,9 @@ import { AssignementService } from 'src/app/services/assignement.service';
 export class AssignementDetailsComponent implements OnInit {
   assignementId!:string;
   assignementData!:any;
+
+  baseUrl:string = environment.apiUrl;
+
 
   constructor(
     private router:Router,
@@ -36,4 +40,10 @@ export class AssignementDetailsComponent implements OnInit {
     })
   }
 
+  constructImagePath(imagePath:string){
+    const stringPath = imagePath.replace('\\','/');
+    const realpath = stringPath.split('public')[1]
+    const result =  `${this.baseUrl}${realpath}`;
+    return result;
+  }
 }

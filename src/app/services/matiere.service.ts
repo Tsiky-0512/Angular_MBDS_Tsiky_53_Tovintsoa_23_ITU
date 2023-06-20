@@ -32,4 +32,56 @@ export class MatiereService {
       })
     );
   }
+
+  saveMatiere(body:any) {
+    return this.http.post(`${API_MATIERE_URL}`,body).pipe(
+      map((data:any)=>{
+        if (data.status != "200") {
+          this.common.openSnackBarMessage(data.error,"error",5000);
+          return of(undefined);
+        }
+        return data;
+      }),
+      catchError((err) => {
+        this.common.openSnackBarMessage(`Erreur : ${err}`,'error',5000);
+        return of(undefined);
+      })
+    )
+  }
+
+  uploadMatiereImage(matiereId:string,file:File){
+    const uploadData = new FormData();
+    uploadData.append('file',file);
+    return this.http.post(`${API_MATIERE_URL}/uploadImageMatiere?id=${matiereId}`,uploadData).pipe(
+      map((data:any)=>{
+        if (data.status != "200") {
+          this.common.openSnackBarMessage("Erreur Upload Image","error",5000);
+          return of(undefined);
+        }
+        this.common.openSnackBarMessage("Insertion des images avec succès.","error",5000);
+      }),
+      catchError((err) => {        
+        this.common.openSnackBarMessage(`Erreur ${err}`,'error',5000);
+        return of(undefined);
+      })
+    );
+  }
+
+  uploadProfImage(matiereId:string,file:File){
+    const uploadData = new FormData();
+    uploadData.append('file',file);
+    return this.http.post(`${API_MATIERE_URL}/uploadImageProf?id=${matiereId}`,uploadData).pipe(
+      map((data:any)=>{
+        if (data.status != "200") {
+          this.common.openSnackBarMessage("Erreur Upload Image","error",5000);
+          return of(undefined);
+        }
+        this.common.openSnackBarMessage("Insertion des images avec succès.","error",5000);
+      }),
+      catchError((err) => {        
+        this.common.openSnackBarMessage(`Erreur ${err}`,'error',5000);
+        return of(undefined);
+      })
+    );
+  }
 }

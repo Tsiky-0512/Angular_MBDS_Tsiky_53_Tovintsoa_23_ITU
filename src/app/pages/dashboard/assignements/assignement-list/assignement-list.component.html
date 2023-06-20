@@ -11,8 +11,8 @@
         </div>
 
         <div class="symbol symbol-50px">
-          <span class="symbol-label bg-light">
-            <img src="./assets/media/svg/brand-logos/plurk.svg" class="h-50 align-self-center" alt="" />
+          <span *ngIf="item?.matiere?.photoProf" class="symbol-label bg-light">
+            <img [src]="constructImagePath(item?.matiere?.photoProf)" class="h-50 align-self-center" alt="" />
           </span>
         </div>
 

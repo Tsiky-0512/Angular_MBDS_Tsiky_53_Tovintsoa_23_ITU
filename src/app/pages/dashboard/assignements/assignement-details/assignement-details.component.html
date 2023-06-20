@@ -58,7 +58,8 @@
                 <label class="col-lg-4 fw-bold text-muted">Photo de Professeur</label>
     
                 <div class="col-lg-8 fv-row">
-                    <span class="fw-bold fs-6">{{assignementData?.matiere?.prof?.image || 'NA'}}</span>
+                    <span class="fw-bold fs-6">{{baseUrl+assignementData?.matiere?.prof?.image || 'NA'}}</span>
+                    <img *ngIf="assignementData?.matiere?.prof?.image" [src]="baseUrl+assignementData?.matiere?.prof?.image" alt="">
                 </div>
             </div>
         
@@ -91,7 +92,9 @@
                 <label class="col-lg-4 fw-bold text-muted">Image de l'auteur</label>
     
                 <div class="col-lg-8 fv-row">
-                    <span class="fw-bold fs-6">{{assignementData?.auteur?.image || 'NA'}}</span>
+                    <div class="col-lg-8 fv-row image-content">
+                        <img *ngIf="assignementData?.auteur?.image" [src]="constructImagePath(assignementData?.auteur?.image)" alt="">
+                    </div>
                 </div>
             </div>
         

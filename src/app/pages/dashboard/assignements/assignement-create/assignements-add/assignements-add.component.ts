@@ -17,7 +17,11 @@ export class AssignementsAddComponent implements OnInit {
   submittedMatiere:boolean = false;
   matiereData!:Array<any>;
   previewImageMatiereUrl!:any;
+  previewImageProfUrl!:any;
   imageMatiereFile!:File;
+  imageProfFile!:File;
+
+  loadingSaveMatiere:boolean = false;
 
   @ViewChild('insertMatiere') insertMatiere:ElementRef;
   insertMatiereRef:NgbModalRef;
@@ -73,7 +77,7 @@ export class AssignementsAddComponent implements OnInit {
         Validators.maxLength(60)
        ])
       ],
-      image: ['',Validators.required],
+      image: [''],
       image_prof:['']
     });
     
@@ -117,6 +121,25 @@ export class AssignementsAddComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  onFileSelectedImageProf(event:any) {
+    if (!event.target.files[0]) return;
+
+    const file = event.target.files[0];
+
+    const error =  this.checkImageFile(file);
+
+    if (error) return;
+
+    this.imageProfFile = file;
+    
+    // lecture du contenu du fichier
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewImageProfUrl = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
 
   checkImageFile(file:File){
     if (!file || !file.type.match('image.*')) {
@@ -124,6 +147,28 @@ export class AssignementsAddComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  saveMatiere() {
+
+    console.log("Hello");
+    
+    if(!this.inputFormMatiere.valid) return;
+
+    const body = {
+      "nom":this.inputFormMatiere.value.nom,
+      "nomProf":this.inputFormMatiere.value.nom_prof,
+    }
+    this.loadingSaveMatiere = true;
+    this.matiereService.saveMatiere(body).pipe(first()).subscribe((data:any)=>{
+       this.matiereService.uploadMatiereImage(data?.data?._id,this.imageMatiereFile).pipe(first()).subscribe(()=>{
+        this.matiereService.uploadProfImage(data?.data?._id,this.imageProfFile).pipe(first()).subscribe(()=>{ 
+          this.getListMatiere();
+          this.insertMatiereRef.close() 
+          this.loadingSaveMatiere = false;
+        });
+      });
+    })
   }
 
 }

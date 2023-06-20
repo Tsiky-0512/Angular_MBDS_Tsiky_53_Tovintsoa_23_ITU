@@ -5,6 +5,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { AuthService } from 'src/app/modules/auth';
 import { AssignementService } from 'src/app/services/assignement.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-assignement',
@@ -29,6 +30,9 @@ export class AssignementListComponent implements OnInit {
   totalPages:number = 1;
 
   loadingDataAssignement:boolean = false;
+
+  baseUrl:string = environment.apiUrl;
+
 
   constructor(
     private assignementService:AssignementService,
@@ -131,6 +135,14 @@ export class AssignementListComponent implements OnInit {
     this.page += 1;
     this.incrementAssignement();
   }
+
+  constructImagePath(imagePath:string){
+    const stringPath = imagePath.replace('\\','/');
+    const realpath = stringPath.split('public')[1]
+    const result =  `${this.baseUrl}${realpath}`;
+    return result;
+  }
+
 
  
 
